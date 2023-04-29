@@ -38,6 +38,19 @@
         <% for(var i=0; i< websiteData.length; i++) { %>
             <div class="flex items-center w-full justify-between my-4">
                 <form class="flex items-center w-full mr-10 justify-between" method="POST" action="/edit">
+                    <% if (websiteData[i].status >= 200 && websiteData[i].status < 300) { %>
+                        <div class="bg-green-500 text-white mr-2 px-3 py-2 rounded-lg">
+                          <%= websiteData[i].status %>
+                        </div>
+                      <% } else if (websiteData[i].status >= 300 && websiteData[i].status < 400) { %>
+                        <div class="bg-yellow-500 text-white mr-2 px-3 py-2 rounded-lg">
+                          <%= websiteData[i].status %>
+                        </div>
+                      <% } else if (websiteData[i].status >= 400 && websiteData[i].status < 600) { %>
+                        <div class="bg-red-500 text-white mr-2 px-3 py-2 rounded-lg">
+                          <%= websiteData[i].status %>
+                        </div>
+                      <% } %>
                     <input class="px-3 py-2 border rounded-lg mr-2" type="text" value='<%= websiteData[i].name %>'
                         name="name" required />
                     <input class="px-3 py-2 border rounded-lg mr-2 w-2/4" type="text" value='<%= websiteData[i].url %>'

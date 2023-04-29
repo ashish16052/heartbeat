@@ -18,6 +18,10 @@ const websiteSchema = new Schema({
     interval: {
         type: Number,
         required: true,
+    },
+    status: {
+        type: Number,
+        default: 200
     }
 });
 
