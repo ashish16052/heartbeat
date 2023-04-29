@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require('mongoose');
-var WebsiteModel = require('./model/Website');
-const scheduleCronJobs = require('./controller/scheduleCronJobs')
+const WebsiteModel = require('./model/Website');
+const authenticateAdmin = require('./lib/authenticateAdmin');
+const scheduleCronJobs = require('./lib/scheduleCronJobs')
 require('dotenv').config();
 app = express();
 
@@ -33,6 +34,20 @@ const hostarr = [
     }
 ]
 
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/view/login.html')
+})
+
+app.post('/login', authenticateAdmin, (req, res) => {
+    res.redirect('/')
+})
+
+app.get('/', (req, res) => {
+    if (app.get('user'))
+        res.sendFile(__dirname + '/view/index.html');
+    else
+        res.redirect('/login')
+})
 
 mongoose.connect(process.env.DB);
 mongoose.connection.on("connected", () => {
