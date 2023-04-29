@@ -21,6 +21,11 @@ To get started with HeartBeat, follow these steps:
 3. Start the server by running `npm start`.
 4. Navigate to `http://localhost:3000` in your browser.
 
+To Run on docker:
+
+1. docker build -t heartbeat .
+2. docker run -d --name heartbeat -p 3004:3004 heartbeat
+
 ## Usage
 
 To use HeartBeat, simply enter your website's URL and set up the monitoring interval. HeartBeat will then ping your website at regular intervals and alert you if your website goes down.
