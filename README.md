@@ -2,7 +2,7 @@
 
 HeartBeat is a website monitoring tool that allows you to monitor your website's uptime and performance. With HeartBeat, you can ensure that your website is always up and running, and that your visitors can access it without any problems.
 
-<img width="1024" alt="image" src="https://user-images.githubusercontent.com/86217607/235302963-553b0adc-7a0e-486f-bae5-31fb5ae4d465.png">
+<img width="1024" alt="image" src="https://user-images.githubusercontent.com/86217607/235305967-4e27c200-367b-497e-84f1-31e7ba166439.png">
 
 
 ## Features
