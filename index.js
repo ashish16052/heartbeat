@@ -7,6 +7,8 @@ const scheduleCronJobs = require('./lib/scheduleCronJobs')
 require('dotenv').config();
 app = express();
 
+app.set('view engine', 'ejs')
+
 var corsOptions = {
     origin: process.env.CLIENT_URL,
     credentials: true,
@@ -23,39 +25,46 @@ app.use(
     })
 );
 
-const hostarr = [
-    {
-        url: 'https://www.youtube.com/',
-        interval: 1,
-    },
-    {
-        url: 'https://twitter.com/',
-        interval: 1,
-    }
-]
-
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/view/login.html')
+    res.render('login')
 })
 
 app.post('/login', authenticateAdmin, (req, res) => {
     res.redirect('/')
 })
 
-app.get('/', (req, res) => {
-    if (app.get('user'))
-        res.sendFile(__dirname + '/view/index.html');
+app.post('/', async (req, res) => {
+    const { name, url, interval } = req.body
+    await WebsiteModel.create({ name, url, interval })
+    res.redirect('/')
+})
+
+app.post('/edit', async (req, res) => {
+    await WebsiteModel.findByIdAndUpdate(req.body._id, req.body, { upsert: true, new: true })
+    res.redirect('/')
+})
+
+app.post('/delete', async (req, res) => {
+    await WebsiteModel.deleteOne({ _id: req.body._id })
+    res.redirect('/')
+})
+
+app.get('/', async (req, res) => {
+    if (app.get('user')) {
+        const websiteData = await WebsiteModel.find()
+        scheduleCronJobs(websiteData)
+        res.render('index', { websiteData });
+    }
     else
         res.redirect('/login')
 })
 
 mongoose.connect(process.env.DB);
-mongoose.connection.on("connected", () => {
+mongoose.connection.on("connected", async () => {
     app.listen(process.env.PORT, () => {
         console.log("Server started at port: " + process.env.PORT);
     });
     console.log("Connected to production database");
-    scheduleCronJobs(hostarr)
 }).on("error", (err) => {
     console.log("Error in database connection" + err);
 });

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💓</text></svg>">
+    <title>Heartbeat</title>
+</head>
+
+<body>
+    <nav class="bg-purple-600 py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between">
+                <div class="flex-shrink-0 flex items-center">
+                    <p class="text-2xl">💓</p>
+                    <span class="text-white font-bold text-xl ml-2">Heartbeat</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="px-10 py-4">
+        <form class="my-4 mb-8 flex items-center" method="POST" action="/">
+            <input name="name" required type="text" class="px-3 py-2 border rounded-lg mr-2 w-2/6"
+                placeholder="Website Name">
+            <input name="url" required type="text" class="px-3 py-2 border rounded-lg mr-2 w-3/6"
+                placeholder="Website URL">
+            <input name="interval" min="10" value="10" required type="number"
+                class="px-3 py-2 border rounded-lg mr-2 w-1/6" placeholder="Interval">
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/6">Add</button>
+        </form>
+    </div>
+
+    <div class="bg-gray-100 px-10 py-4 min-h-screen">
+        <% for(var i=0; i< websiteData.length; i++) { %>
+            <div class="flex items-center w-full justify-between my-4">
+                <form class="flex items-center w-full mr-10 justify-between" method="POST" action="/edit">
+                    <input class="px-3 py-2 border rounded-lg mr-2" type="text" value='<%= websiteData[i].name %>'
+                        name="name" required />
+                    <input class="px-3 py-2 border rounded-lg mr-2 w-2/4" type="text" value='<%= websiteData[i].url %>'
+                        name="url" required />
+                    <input class="px-3 py-2 border rounded-lg mr-2" type="number" name="interval" min="10"
+                        value='<%= websiteData[i].interval %>' required />
+                    <input type="hidden" name="_id" value="<%= websiteData[i]._id %>" />
+                    <input type="submit" value="Edit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+                </form>
+                <form class="flex items-center" method="POST" action="/delete">
+                    <input type="hidden" name="_id" value="<%= websiteData[i]._id %>" />
+                    <input type="submit" value="Delete"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+                </form>
+            </div>
+            <% } %>
+    </div>
+
+    <!-- <h1>Index</h1>
+    <form method="POST" action="/">
+        <input placeholder="name" type="text" name="name" required />
+        <input placeholder="url" type="text" name="url" required />
+        <input placeholder="interval" type="number" name="interval" min="10" value="10" required />
+        <input type="submit" value="Add" />
+        <br />
+    </form>
+    </form>
+    <% for(var i=0; i< websiteData.length; i++) { %>
+        <form method="POST" action="/edit">
+            <input type="text" value='<%= websiteData[i].name %>' name="name" required />
+            <input type="text" value='<%= websiteData[i].url %>' name="url" required />
+            <input type="number" name="interval" min="10" value='<%= websiteData[i].interval %>' required />
+            <input type="hidden" name="_id" value="<%= websiteData[i]._id %>" />
+            <input type="submit" value="Edit" />
+        </form>
+        <form method="POST" action="/delete">
+            <input type="hidden" name="_id" value="<%= websiteData[i]._id %>" />
+            <input type="submit" value="Delete" />
+            <br />
+        </form>
+        <% } %> -->
+</body>
+
+</html>

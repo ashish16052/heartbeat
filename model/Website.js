@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { v4: uuidv4 } = require('uuid');
 const websiteSchema = new Schema({
     _id: {
         type: String,
-        required: true,
+        require: true,
+        default: uuidv4,
     },
     name: {
         type: String,
@@ -15,9 +17,15 @@ const websiteSchema = new Schema({
     },
     interval: {
         type: Number,
-        default: 15,
         required: true,
     }
 });
+
+websiteSchema.pre('save', function(next) {
+    if (this.interval < 10) {
+      this.interval = 10;
+    }
+    next();
+  });
 
 module.exports = mongoose.model("Website", websiteSchema);
