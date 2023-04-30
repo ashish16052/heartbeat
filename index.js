@@ -36,11 +36,15 @@ app.post('/login', authenticateAdmin, (req, res) => {
 app.post('/', async (req, res) => {
     const { name, url, interval } = req.body
     await WebsiteModel.create({ name, url, interval })
+    const websiteData = await WebsiteModel.find()
+    scheduleCronJobs(websiteData)
     res.redirect('/')
 })
 
 app.post('/edit', async (req, res) => {
     await WebsiteModel.findByIdAndUpdate(req.body._id, req.body, { upsert: true, new: true })
+    const websiteData = await WebsiteModel.find()
+    scheduleCronJobs(websiteData)
     res.redirect('/')
 })
 
@@ -52,7 +56,6 @@ app.post('/delete', async (req, res) => {
 app.get('/', async (req, res) => {
     if (app.get('user')) {
         const websiteData = await WebsiteModel.find()
-        scheduleCronJobs(websiteData)
         res.render('index', { websiteData });
     }
     else
